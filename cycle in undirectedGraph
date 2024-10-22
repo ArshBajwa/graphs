@@ -1,0 +1,29 @@
+//simple dfs catch is return true only if vissited is coming true and it is not parent.
+
+class Solution {
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        int n=adj.size();
+            boolean []visited=new boolean[n];
+            for(int i=0;i<n;i++){
+                 if(!visited[i]){
+                      if(dfs(visited,adj,i,-1)) return true;
+                 }
+            }
+            return false;
+    }
+    public static boolean dfs(boolean []visited,ArrayList<ArrayList<Integer>> adj,int s,int p){
+            visited[s]=true;
+            for(int i:adj.get(s)){
+                 if(!visited[i]){
+                      if(dfs(visited,adj,i,s)){
+                          return true;
+                      }
+                 }
+                 else if(p!=i){
+                     return true;
+                      
+                 }
+            }
+            return false;
+    }
+}
