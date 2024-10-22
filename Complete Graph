@@ -1,0 +1,50 @@
+class Solution {
+    public int countCompleteComponents(int n, int[][] edges) {
+        int cnt=0;
+            boolean []visited=new boolean[n];
+            List<List<Integer>>al=new ArrayList<>();
+            for(int i=0;i<n;i++){
+                  al.add(new ArrayList<>());
+            }
+            for(int []edge:edges){
+                  al.get(edge[0]).add(edge[1]);
+                  al.get(edge[1]).add(edge[0]);
+            }
+            for(int i=0;i<n;i++){
+                  if(!visited[i]){
+                       List<Integer>component=bfs(n,al,i,visited);
+                       if(isComplete(component,al)){
+                        cnt++;
+                       }
+                  }
+            }
+            return cnt;
+    }
+    public static List<Integer> bfs(int n,List<List<Integer>>al,int s,boolean []visited){
+          Queue<Integer>q=new LinkedList<>();
+          List<Integer>component=new ArrayList<>();
+          q.add(s);
+          visited[s]=true;
+          component.add(s);
+             while(!q.isEmpty()){
+                  int curr=q.poll();
+                      for(int j:al.get(curr)){
+                            if(!visited[j]){
+                                 visited[j]=true;
+                                 q.add(j);
+                                 component.add(j);
+                            }
+                      }
+                  }
+             return component;
+    }
+    public static boolean isComplete(List<Integer>component,List<List<Integer>>al){
+        int s=component.size();
+            for(int e:component){
+                 if(al.get(e).size()!=s-1){
+                      return false;
+                 }
+            }
+            return true;
+    }
+}
