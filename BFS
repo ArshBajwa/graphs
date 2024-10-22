@@ -1,0 +1,57 @@
+import java.util.*;
+class HelloWorld {
+    public static void bfs(List<List<Integer>>al,int s,int des,boolean []visited,int []d,int []p){
+        Queue<Integer>q=new LinkedList<>();
+        q.add(s);
+        visited[s]=true;
+        while(!q.isEmpty()){
+              int curr=q.poll();
+               System.out.print(curr+" ");
+              for(int i:al.get(curr)){
+                    int neigh=i;
+                    if(!visited[neigh]){
+                         visited[neigh]=true;
+                         d[neigh]=curr+1;
+                         p[neigh]=curr;
+                         q.add(neigh);
+                    }
+              }
+        }
+    }
+    public static void addEdges(List<List<Integer>>al,int s,int d){
+            al.get(s).add(d);
+            al.get(d).add(s);
+    }
+    public static void print(List<List<Integer>>al){
+           for(int i=0;i<al.size();i++){
+               System.out.print(i+":");
+               for(int j:al.get(i)){
+                    System.out.print(j+" ");
+               }
+               System.out.println();
+           }
+    }
+    public static void main(String[] args) {
+          int v=5;
+          List<List<Integer>>al=new ArrayList<>();
+          for(int i=0;i<5;i++){
+                al.add(new ArrayList<>());
+          }
+          addEdges(al,0,1);
+          addEdges(al,0,2);
+          addEdges(al,1,3);
+          addEdges(al,1,4);
+          addEdges(al,2,4);
+          print(al);
+          boolean []visited=new boolean[v];
+          int []d=new int[v];
+          int []p=new int[v];
+          for(int i=0;i<v;i++){
+                visited[i]=false;
+                d[i]=Integer.MAX_VALUE;
+                p[i]=0;
+          }
+          System.out.print("BFS:");
+          bfs(al,0,4,visited,d,p);
+    }
+}
