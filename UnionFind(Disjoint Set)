@@ -1,0 +1,39 @@
+class Solution {
+    public static int find(int x,int[] p){
+           if(p[x]==-1){
+              return x;
+           }
+           p[x]=find(p[x],p);
+           return p[x];
+    }
+    public static void union(int a,int b,int[] p){
+        int p1=find(a,p);
+        int p2=find(b,p);
+        if(p1!=p2){
+             p[p1]=b;
+        }
+    }
+    public int largestComponentSize(int[] nums) {
+        int n=nums.length;
+         int p[]=new int[100001];
+         for(int i=0;i<100001;i++){
+              p[i]=-1;
+         }
+         for(int i=0;i<n;i++){
+              for(int k=2;k<=Math.sqrt(nums[i]);k++){
+                   if(nums[i]%k==0){
+                       union(nums[i],k,p);
+                       union(nums[i],nums[i]/k,p);
+                   }
+              }
+         }
+         int cnt=0;
+         HashMap<Integer,Integer>mp=new HashMap<>();
+          for(int i=0;i<n;i++){
+               int parent=find(nums[i],p);
+               cnt=Math.max(cnt,mp.getOrDefault(parent,0)+1);
+               mp.put(parent,mp.getOrDefault(parent,0)+1);
+          }
+          return cnt;
+    }
+}
